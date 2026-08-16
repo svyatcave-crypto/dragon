@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dragon Playful</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- AUTH -->
+  <div id="auth-screen" class="screen active">
+    <div class="auth-container">
+      <div class="logo">
+        <div class="dragon-icon">🐉</div>
+        <h1>Dragon Playful</h1>
+        <p class="tagline">Collect • Play • Trade • Jail</p>
+      </div>
+      <div class="auth-tabs">
+        <button type="button" class="tab-btn active" id="tab-login">Login</button>
+        <button type="button" class="tab-btn" id="tab-register">Create Account</button>
+      </div>
+
+      <form id="login-form" class="auth-form">
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" placeholder="Enter username" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+        <div class="form-group">
+          <label for="login-group">What group are you in?</label>
+          <select id="login-group" required>
+            <option value="">Select your group...</option>
+            <option value="regular-dreamer">Regular Dreamer</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group" id="login-other-group-wrap" style="display:none;">
+          <label for="login-other-group">Group name</label>
+          <input type="text" id="login-other-group" placeholder="Enter your group name">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="auth-error" id="login-error"></p>
+      </form>
+
+      <form id="register-form" class="auth-form" style="display:none;">
+        <div class="form-group">
+          <label for="reg-username">Username</label>
+          <input type="text" id="reg-username" placeholder="Choose a username" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" placeholder="Choose a password" required autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label for="reg-password2">Confirm Password</label>
+          <input type="password" id="reg-password2" placeholder="Confirm password" required autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label for="reg-group">What group are you in?</label>
+          <select id="reg-group" required>
+            <option value="">Select your group...</option>
+            <option value="regular-dreamer">Regular Dreamer</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group" id="reg-other-group-wrap" style="display:none;">
+          <label for="reg-other-group">Group name</label>
+          <input type="text" id="reg-other-group" placeholder="Enter your group name">
+        </div>
+        <button type="submit" class="btn btn-primary">Create Account</button>
+        <p class="auth-error" id="register-error"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app-screen" class="screen">
+    <header class="app-header">
+      <div class="header-left">
+        <span class="logo-mini">🐉</span>
+        <span class="app-title">Dragon Playful</span>
+      </div>
+      <div class="header-right">
+        <div class="token-display"><span>🪙</span> <span id="token-count">0</span></div>
+        <span id="group-badge" class="group-badge" title="Your group"></span>
+        <button type="button" id="btn-profile" class="icon-btn" title="Profile">👤</button>
+        <button type="button" id="btn-logout" class="btn-logout" title="Log out">Log out</button>
+      </div>
+    </header>
+
+    <nav class="bottom-nav">
+      <button type="button" class="nav-btn active" data-view="add"><span class="nav-icon">➕</span><span>Add</span></button>
+      <button type="button" class="nav-btn" data-view="collection"><span class="nav-icon">🎒</span><span>Playful</span></button>
+      <button type="button" class="nav-btn" data-view="play"><span class="nav-icon">🎮</span><span>Play</span></button>
+      <button type="button" class="nav-btn" data-view="jail"><span class="nav-icon">🔒</span><span>Jail</span></button>
+      <button type="button" class="nav-btn" data-view="trade"><span class="nav-icon">🔄</span><span>Trade</span></button>
+      <button type="button" class="nav-btn" data-view="shop"><span class="nav-icon">🛒</span><span>Order</span></button>
+    </nav>
+
+    <main class="app-content">
+      <!-- ADD -->
+      <section id="view-add" class="view active">
+        <div class="view-header">
+          <h2>Add to Playful</h2>
+          <p class="subtitle">Take a photo + enter the unique code for dragons and food.</p>
+        </div>
+        <div class="add-type-toggle">
+          <button type="button" class="type-btn active" data-type="dragon">🐉 Dragon</button>
+          <button type="button" class="type-btn" data-type="food">🍎 Food</button>
+        </div>
+
+        <div id="item-picker" class="picker-panel">
+          <h3>1. Choose type</h3>
+          <div class="option-grid" id="type-options"></div>
+
+          <h3 style="margin-top:16px;">2. Take / choose photo</h3>
+          <div class="photo-upload-box">
+            <input type="file" id="item-photo-input" accept="image/*" capture="environment" style="display:none;">
+            <button type="button" id="btn-pick-photo" class="btn btn-secondary" style="width:auto;">📷 Take / Choose Photo</button>
+            <div id="photo-preview-wrap" style="display:none;margin-top:12px;">
+              <img id="photo-preview" alt="Preview" style="max-width:100%;max-height:200px;border-radius:12px;">
+              <button type="button" id="btn-clear-photo" class="btn btn-secondary" style="width:auto;margin-top:8px;font-size:0.85rem;">Remove photo</button>
+            </div>
+          </div>
+
+          <h3 style="margin-top:16px;">3. Unique proof code</h3>
+          <p class="hint-text">Enter the code on the item. Each code works only once.</p>
+          <div class="form-group">
+            <input type="text" id="item-code" placeholder="e.g. DRAGON-EMB-001 or FOOD-APL-001" autocomplete="off" style="text-transform:uppercase;">
+          </div>
+        </div>
+
+        <div class="add-actions">
+          <p id="selected-preview" class="selected-preview">Select type + photo + code</p>
+          <button type="button" id="btn-add-item" class="btn btn-primary" disabled>Add to Playful</button>
+          <p id="add-error" class="auth-error"></p>
+        </div>
+      </section>
+
+      <!-- COLLECTION -->
+      <section id="view-collection" class="view">
+        <div class="view-header">
+          <h2>Your Playful</h2>
+          <p class="subtitle">Free items (not in jail)</p>
+        </div>
+        <div class="filter-bar">
+          <button type="button" class="filter-btn active" data-filter="all">All</button>
+          <button type="button" class="filter-btn" data-filter="dragon">🐉 Dragons</button>
+          <button type="button" class="filter-btn" data-filter="food">🍎 Food</button>
+        </div>
+        <div id="collection-grid" class="collection-grid"></div>
+        <p id="empty-collection" class="empty-state" style="display:none;">Nothing here yet.</p>
+      </section>
+
+      <!-- PLAY -->
+      <section id="view-play" class="view">
+        <div class="view-header">
+          <h2>Play with Dragons</h2>
+          <p class="subtitle">Select a free dragon</p>
+        </div>
+        <div class="play-area">
+          <div id="selected-dragon-display" class="dragon-stage">
+            <p class="placeholder-text">Pick a dragon below</p>
+          </div>
+          <div class="play-actions" id="play-actions" style="display:none;">
+            <button type="button" id="btn-feed" class="btn btn-play">🍎 Feed</button>
+            <button type="button" id="btn-dance" class="btn btn-play">💃 Dance</button>
+            <button type="button" id="btn-pet" class="btn btn-play">🤚 Pet</button>
+            <button type="button" id="btn-jail" class="btn btn-play btn-jail">🔒 Send to Jail</button>
+          </div>
+          <div id="play-log" class="play-log"></div>
+        </div>
+        <div id="playable-dragons" class="horizontal-scroll"></div>
+      </section>
+
+      <!-- JAIL -->
+      <section id="view-jail" class="view">
+        <div class="view-header">
+          <h2>Dragon Jail 🔒</h2>
+          <p class="subtitle">To release: enter backup code, then send email for admin approval.</p>
+        </div>
+        <div id="jail-grid" class="collection-grid"></div>
+        <p id="empty-jail" class="empty-state" style="display:none;">Jail is empty.</p>
+      </section>
+
+      <!-- TRADE -->
+      <section id="view-trade" class="view">
+        <div class="view-header">
+          <h2>Trade Tokens</h2>
+          <p class="subtitle">Convert food or buy tokens</p>
+        </div>
+        <div class="trade-panel">
+          <div class="trade-card">
+            <h3>Convert Food → Tokens</h3>
+            <p>1 food = 5 tokens</p>
+            <div class="trade-controls">
+              <select id="food-select"><option value="">Select food...</option></select>
+              <button type="button" id="btn-convert-food" class="btn btn-primary" disabled style="width:auto;margin:0;">Convert</button>
+            </div>
+          </div>
+          <div class="trade-card">
+            <h3>Market</h3>
+            <div class="market-item">
+              <span>Common Dragon Token</span>
+              <span class="price">20 🪙</span>
+              <button type="button" id="btn-buy-token" class="btn btn-secondary">Buy</button>
+            </div>
+            <div class="market-item">
+              <span>Rare Dragon Token</span>
+              <span class="price">50 🪙</span>
+              <button type="button" id="btn-buy-rare" class="btn btn-secondary">Buy</button>
+            </div>
+          </div>
+        </div>
+        <div class="trade-history">
+          <h3>Recent Activity</h3>
+          <ul id="trade-log"></ul>
+        </div>
+      </section>
+
+      <!-- SHOP / ORDERS -->
+      <section id="view-shop" class="view">
+        <div class="view-header">
+          <h2 id="shop-title">Order New Dragons</h2>
+          <p class="subtitle" id="shop-subtitle">Spend tokens (demo)</p>
+        </div>
+        <!-- User shop -->
+        <div id="user-shop">
+          <div class="shop-grid">
+            <div class="shop-item" data-id="ember" data-emoji="🔥" data-price="35">
+              <div class="shop-img">🔥</div>
+              <h3>Ember Wyrm</h3>
+              <p>Fiery red dragon</p>
+              <p class="price">35 🪙</p>
+              <button type="button" class="btn btn-primary btn-order">Order</button>
+            </div>
+            <div class="shop-item" data-id="frost" data-emoji="❄️" data-price="25">
+              <div class="shop-img">❄️</div>
+              <h3>Frostling</h3>
+              <p>Icy blue mini</p>
+              <p class="price">25 🪙</p>
+              <button type="button" class="btn btn-primary btn-order">Order</button>
+            </div>
+            <div class="shop-item" data-id="forest" data-emoji="🌿" data-price="30">
+              <div class="shop-img">🌿</div>
+              <h3>Moss Drake</h3>
+              <p>Green forest</p>
+              <p class="price">30 🪙</p>
+              <button type="button" class="btn btn-primary btn-order">Order</button>
+            </div>
+            <div class="shop-item" data-id="shadow" data-emoji="🌑" data-price="45">
+              <div class="shop-img">🌑</div>
+              <h3>Shadow Serpent</h3>
+              <p>Mysterious dark</p>
+              <p class="price">45 🪙</p>
+              <button type="button" class="btn btn-primary btn-order">Order</button>
+            </div>
+          </div>
+          <div id="order-status" class="status-msg"></div>
+        </div>
+        <!-- Admin active orders -->
+        <div id="admin-orders" style="display:none;">
+          <div id="orders-list"></div>
+          <p id="empty-orders" class="empty-state" style="display:none;">No active orders.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- PROFILE MODAL -->
+  <div id="profile-modal" class="modal" style="display:none;">
+    <div class="modal-content" style="max-height:90vh;overflow-y:auto;">
+      <button type="button" class="modal-close" id="close-profile">&times;</button>
+      <h2>Profile</h2>
+      <p><strong>Username:</strong> <span id="profile-username"></span></p>
+      <p><strong>Group:</strong> <span id="profile-group"></span></p>
+      <p><strong>Tokens:</strong> <span id="profile-tokens"></span></p>
+      <p><strong>Free items:</strong> <span id="profile-items"></span></p>
+      <p><strong>In jail:</strong> <span id="profile-jailed"></span></p>
+      <div id="admin-panel" style="display:none;">
+        <h3 style="color:#f1c40f;margin-top:16px;">Admin Panel</h3>
+        <p style="font-size:0.85rem;color:#a7a9be;">Pending jail releases:</p>
+        <div id="admin-releases" style="margin-bottom:12px;"></div>
+        <p style="font-size:0.85rem;color:#a7a9be;">Valid codes:</p>
+        <ul id="admin-codes" style="font-size:0.75rem;color:#00d9ff;margin-bottom:12px;max-height:100px;overflow:auto;"></ul>
+        <div class="form-group">
+          <label>Add tokens to a user</label>
+          <input type="text" id="admin-target-user" placeholder="username">
+          <input type="number" id="admin-add-tokens" placeholder="amount" style="margin-top:6px;" value="50">
+          <button type="button" id="btn-admin-add-tokens" class="btn btn-secondary" style="margin-top:8px;">Add tokens</button>
+        </div>
+        <button type="button" id="btn-give-tokens" class="btn btn-secondary" style="margin-top:8px;">+100 to me</button>
+        <button type="button" id="btn-reset-all" class="btn btn-danger" style="margin-top:8px;">Reset All Data</button>
+      </div>
+      <button type="button" id="btn-logout-profile" class="btn btn-secondary" style="margin-top:16px;">Log out</button>
+    </div>
+  </div>
+
+  <!-- JAIL SEND MODAL (confirm with password) -->
+  <div id="jail-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <button type="button" class="modal-close" id="close-jail-modal">&times;</button>
+      <h2>🔒 Send to Jail</h2>
+      <p id="jail-dragon-name" style="margin-bottom:12px;color:#00d9ff;"></p>
+      <p style="margin-bottom:12px;font-size:0.9rem;color:#a7a9be;">Confirm with your account password to send this dragon to jail.</p>
+      <div class="form-group">
+        <label for="jail-password">Your password</label>
+        <input type="password" id="jail-password" placeholder="Account password" required>
+      </div>
+      <div class="form-group">
+        <label for="owner-email">Group owner's email (notification)</label>
+        <input type="email" id="owner-email" placeholder="owner@example.com">
+      </div>
+      <p id="jail-modal-error" class="auth-error"></p>
+      <button type="button" id="btn-send-jail-notify" class="btn btn-primary" style="background:#8e44ad;">Confirm & Jail</button>
+      <button type="button" id="btn-cancel-jail" class="btn btn-secondary" style="margin-top:8px;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- RELEASE REQUEST MODAL -->
+  <div id="release-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <button type="button" class="modal-close" id="close-release-modal">&times;</button>
+      <h2>Request Release</h2>
+      <p id="release-dragon-name" style="margin-bottom:12px;color:#00d9ff;"></p>
+      <p style="margin-bottom:12px;font-size:0.9rem;color:#a7a9be;">
+        1. Enter your backup code<br>
+        2. Click Send Email to notify admin (sriatcave@gmail.com)<br>
+        3. Wait for admin to approve
+      </p>
+      <div class="form-group">
+        <label for="backup-code">Backup code</label>
+        <input type="text" id="backup-code" placeholder="Your backup code" autocomplete="off">
+      </div>
+      <p id="release-modal-error" class="auth-error"></p>
+      <button type="button" id="btn-send-release-email" class="btn btn-primary">Send Email to sriatcave@gmail.com</button>
+      <button type="button" id="btn-cancel-release" class="btn btn-secondary" style="margin-top:8px;">Cancel</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" style="display:none;"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
